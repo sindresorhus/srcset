@@ -1,6 +1,6 @@
 {
 	"name": "srcset",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"main": "srcset.js",
 	"ignore": [
 		".*",
