@@ -1,0 +1,18 @@
+{
+  "name": "srcset",
+  "repo": "sindresorhus/srcset",
+  "description": "Parse and stringify the HTML <img> srcset attribute",
+  "version": "0.0.0",
+  "keywords": [
+    "html",
+    "attribute",
+    "image",
+    "img",
+    "src",
+    "parse",
+    "stringify"
+  ],
+  "main": "srcset.js",
+  "scripts": ["srcset.js"],
+  "license": "MIT"
+}
