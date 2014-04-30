@@ -1,11 +1,6 @@
-/*global describe, it */
 'use strict';
-var isBrowser = typeof window !== 'undefined';
-
-if (!isBrowser) {
-	var assert = require('chai').assert;
-	var srcset = require('../srcset');
-}
+var assert = require('assert');
+var srcset = require('../srcset');
 
 describe('.parse()', function () {
 	it('should parse srcset', function () {

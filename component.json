@@ -1,8 +1,8 @@
 {
   "name": "srcset",
-  "repo": "sindresorhus/srcset",
+  "repository": "sindresorhus/srcset",
   "description": "Parse and stringify the HTML <img> srcset attribute",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "html",
     "attribute",
