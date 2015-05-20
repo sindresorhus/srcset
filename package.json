@@ -1,6 +1,6 @@
 {
   "name": "srcset",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Parse and stringify the HTML <img> srcset attribute",
   "keywords": [
     "html",
