@@ -7,18 +7,8 @@ Useful if you're creating a polyfill, build-tool, etc.
 
 ## Install
 
-Download the library [manually](https://github.com/sindresorhus/srcset/releases) or with a package-manager.
-
-```bash
+```
 $ npm install --save srcset
-```
-
-```bash
-$ bower install --save srcset
-```
-
-```bash
-$ component install sindresorhus/srcset
 ```
 
 
@@ -35,6 +25,8 @@ How an image with `srcset` might look like:
 Then have some fun with it:
 
 ```js
+var srcset = require('srcset');
+
 var parsed = srcset.parse('banner-HD.jpg 2x, banner-phone.jpg 100w');
 console.log(parsed);
 /*
@@ -56,15 +48,15 @@ banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
 
 ## API
 
-### srcset.parse()
+### .parse()
 
 Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `height`, `density`.
 
-### srcset.stringify()
+### .stringify()
 
 Accepts an array of objects with the possible properties: `url` (required), `width`, `height`, `density` and returns a srcset string.
 
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](http://sindresorhus.com)

@@ -1,6 +1,6 @@
 'use strict';
 var assert = require('assert');
-var srcset = require('../srcset');
+var srcset = require('./');
 
 describe('.parse()', function () {
 	it('should parse srcset', function () {

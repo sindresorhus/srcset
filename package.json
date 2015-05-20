@@ -9,26 +9,33 @@
     "img",
     "src",
     "parse",
-    "stringify"
+    "stringify",
+    "srcset",
+    "responsive",
+    "picture",
+    "element"
   ],
   "author": {
     "name": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
-    "url": "http://sindresorhus.com"
+    "url": "sindresorhus.com"
   },
-  "main": "srcset",
   "repository": "sindresorhus/srcset",
   "scripts": {
     "test": "mocha"
+  },
+  "dependencies": {
+    "array-uniq": "^1.0.2",
+    "number-is-nan": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "*"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.10.0"
   },
   "license": "MIT",
   "files": [
-    "srcset.js"
+    "index.js"
   ]
 }
