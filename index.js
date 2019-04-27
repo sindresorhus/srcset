@@ -1,63 +1,71 @@
 'use strict';
-var numberIsNan = require('number-is-nan');
-var arrayUniq = require('array-uniq');
-var reInt = /^\d+$/;
+const arrayUniq = require('array-uniq');
 
-function deepUnique(arr) {
-	return arr.sort().filter(function (el, i) {
-		return JSON.stringify(el) !== JSON.stringify(arr[i - 1]);
+const integerRegex = /^\d+$/;
+
+function deepUnique(array) {
+	return array.sort().filter((element, index) => {
+		return JSON.stringify(element) !== JSON.stringify(array[index - 1]);
 	});
 }
 
-exports.parse = function (str) {
-	return deepUnique(str.split(',').map(function (el) {
-		var ret = {};
+exports.parse = string => {
+	return deepUnique(
+		string.split(',').map(part => {
+			const result = {};
 
-		el.trim().split(/\s+/).forEach(function (el, i) {
-			if (i === 0) {
-				return ret.url = el;
+			part
+				.trim()
+				.split(/\s+/)
+				.forEach((element, index) => {
+					if (index === 0) {
+						result.url = element;
+						return;
+					}
+
+					const value = element.substring(0, element.length - 1);
+					const postfix = element[element.length - 1];
+					const integerValue = parseInt(value, 10);
+					const floatValue = parseFloat(value);
+
+					if (postfix === 'w' && integerRegex.test(value)) {
+						result.width = integerValue;
+					} else if (postfix === 'h' && integerRegex.test(value)) {
+						result.height = integerValue;
+					} else if (postfix === 'x' && !Number.isNaN(floatValue)) {
+						result.density = floatValue;
+					} else {
+						throw new Error('Invalid srcset descriptor: ' + element + '.');
+					}
+				});
+
+			return result;
+		})
+	);
+};
+
+exports.stringify = array => {
+	return arrayUniq(
+		array.map(element => {
+			if (!element.url) {
+				throw new Error('URL is required.');
 			}
 
-			var value = el.substring(0, el.length - 1);
-			var postfix = el[el.length - 1];
-			var intVal = parseInt(value, 10);
-			var floatVal = parseFloat(value);
+			const result = [element.url];
 
-			if (postfix === 'w' && reInt.test(value)) {
-				ret.width = intVal;
-			} else if (postfix === 'h' && reInt.test(value)) {
-				ret.height = intVal;
-			} else if (postfix === 'x' && !numberIsNan(floatVal)) {
-				ret.density = floatVal;
-			} else {
-				throw new Error('Invalid srcset descriptor: ' + el + '.');
+			if (element.width) {
+				result.push(element.width + 'w');
 			}
-		});
 
-		return ret;
-	}));
-}
+			if (element.height) {
+				result.push(element.height + 'h');
+			}
 
-exports.stringify = function (arr) {
-	return arrayUniq(arr.map(function (el) {
-		if (!el.url) {
-			throw new Error('URL is required.');
-		}
+			if (element.density) {
+				result.push(element.density + 'x');
+			}
 
-		var ret = [el.url];
-
-		if (el.width) {
-			ret.push(el.width + 'w');
-		}
-
-		if (el.height) {
-			ret.push(el.height + 'h');
-		}
-
-		if (el.density) {
-			ret.push(el.density + 'x');
-		}
-
-		return ret.join(' ');
-	})).join(', ');
-}
+			return result.join(' ');
+		})
+	).join(', ');
+};
