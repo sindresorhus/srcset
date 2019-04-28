@@ -1,6 +1,6 @@
 # srcset [![Build Status](https://travis-ci.org/sindresorhus/srcset.svg?branch=master)](https://travis-ci.org/sindresorhus/srcset)
 
-> Parse and stringify the HTML `<img>` [srcset](http://mobile.smashingmagazine.com/2013/08/21/webkit-implements-srcset-and-why-its-a-good-thing/) attribute.
+> Parse and stringify the HTML `<img>` [srcset](https://www.smashingmagazine.com/2013/08/webkit-implements-srcset-and-why-its-a-good-thing/) attribute.
 
 Useful if you're creating a polyfill, build-tool, etc.
 
@@ -8,7 +8,7 @@ Useful if you're creating a polyfill, build-tool, etc.
 ## Install
 
 ```
-$ npm install --save srcset
+$ npm install srcset
 ```
 
 
@@ -25,9 +25,9 @@ How an image with `srcset` might look like:
 Then have some fun with it:
 
 ```js
-var srcset = require('srcset');
+const srcset = require('srcset');
 
-var parsed = srcset.parse('banner-HD.jpg 2x, banner-phone.jpg 100w');
+const parsed = srcset.parse('banner-HD.jpg 2x, banner-phone.jpg 100w');
 console.log(parsed);
 /*
 [
@@ -38,7 +38,7 @@ console.log(parsed);
 
 parsed.push({ url: 'banner-phone-HD.jpg', width: 100, density: 2 });
 
-var stringified = srcset.stringify(parsed);
+const stringified = srcset.stringify(parsed);
 console.log(stringified);
 /*
 banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
@@ -59,4 +59,4 @@ Accepts an array of objects with the possible properties: `url` (required), `wid
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](https://sindresorhus.com)

@@ -1,41 +1,43 @@
 {
-  "name": "srcset",
-  "version": "1.0.0",
-  "description": "Parse and stringify the HTML <img> srcset attribute",
-  "keywords": [
-    "html",
-    "attribute",
-    "image",
-    "img",
-    "src",
-    "parse",
-    "stringify",
-    "srcset",
-    "responsive",
-    "picture",
-    "element"
-  ],
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
-  },
-  "repository": "sindresorhus/srcset",
-  "scripts": {
-    "test": "mocha"
-  },
-  "dependencies": {
-    "array-uniq": "^1.0.2",
-    "number-is-nan": "^1.0.0"
-  },
-  "devDependencies": {
-    "mocha": "*"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "license": "MIT",
-  "files": [
-    "index.js"
-  ]
+	"name": "srcset",
+	"version": "1.0.0",
+	"description": "Parse and stringify the HTML <img> srcset attribute",
+	"license": "MIT",
+	"repository": "sindresorhus/srcset",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"html",
+		"attribute",
+		"image",
+		"img",
+		"src",
+		"parse",
+		"stringify",
+		"srcset",
+		"responsive",
+		"picture",
+		"element"
+	],
+	"dependencies": {
+		"array-uniq": "^2.1.0"
+	},
+	"devDependencies": {
+		"ava": "^1.4.1",
+		"tsd": "^0.7.2",
+		"xo": "^0.24.0"
+	}
 }
