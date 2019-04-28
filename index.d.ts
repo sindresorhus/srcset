@@ -19,8 +19,14 @@ declare const srcset: {
 
 	console.log(srcset.parse('banner-HD.jpg 2x, banner-phone.jpg 100w'));
 	// [
-	// 	{ url: 'banner-HD.jpg', density: 2 },
-	// 	{ url: 'banner-phone.jpg', width: 100 }
+	// 	{
+	// 		url: 'banner-HD.jpg',
+	// 		density: 2
+	// 	},
+	// 	{
+	// 		url: 'banner-phone.jpg',
+	// 		width: 100
+	// 	}
 	// ]
 	```
 	*/
@@ -36,10 +42,21 @@ declare const srcset: {
 	import srcset = require('srcset');
 
 	const stringified = srcset.stringify([
-		{ url: 'banner-HD.jpg', density: 2 },
-		{ url: 'banner-phone.jpg', width: 100 },
-		{ url: 'banner-phone-HD.jpg', width: 100, density: 2 }
+		{
+			url: 'banner-HD.jpg',
+			density: 2
+		},
+		{
+			url: 'banner-phone.jpg',
+			width: 100
+		},
+		{
+			url: 'banner-phone-HD.jpg',
+			width: 100,
+			density: 2
+		}
 	]);
+
 	console.log(stringified);
 	// banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
 	```

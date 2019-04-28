@@ -31,12 +31,22 @@ const parsed = srcset.parse('banner-HD.jpg 2x, banner-phone.jpg 100w');
 console.log(parsed);
 /*
 [
-	{ url: 'banner-HD.jpg', density: 2 },
-	{ url: 'banner-phone.jpg', width: 100 }
+	{
+		url: 'banner-HD.jpg',
+		density: 2
+	},
+	{
+		url: 'banner-phone.jpg',
+		width: 100
+	}
 ]
 */
 
-parsed.push({ url: 'banner-phone-HD.jpg', width: 100, density: 2 });
+parsed.push({
+	url: 'banner-phone-HD.jpg',
+	width: 100,
+	density: 2
+});
 
 const stringified = srcset.stringify(parsed);
 console.log(stringified);

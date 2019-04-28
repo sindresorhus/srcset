@@ -2,8 +2,7 @@ import test from 'ava';
 import srcset from '.';
 
 test('.parse() should parse srcset', t => {
-	const fixture =
-		'  banner-HD.jpeg 2x,   banner-HD.jpeg 2x,  banner-HD.jpeg 2x,    banner-phone.jpeg   100w,   banner-phone-HD.jpeg 100w 2x  ';
+	const fixture = '  banner-HD.jpeg 2x,   banner-HD.jpeg 2x,  banner-HD.jpeg 2x,    banner-phone.jpeg   100w,   banner-phone-HD.jpeg 100w 2x  ';
 
 	t.deepEqual(srcset.parse(fixture), [
 		{url: 'banner-HD.jpeg', density: 2},

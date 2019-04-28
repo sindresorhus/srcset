@@ -23,7 +23,7 @@ exports.parse = string => {
 						return;
 					}
 
-					const value = element.substring(0, element.length - 1);
+					const value = element.slice(0, element.length - 1);
 					const postfix = element[element.length - 1];
 					const integerValue = parseInt(value, 10);
 					const floatValue = parseFloat(value);
@@ -35,7 +35,7 @@ exports.parse = string => {
 					} else if (postfix === 'x' && !Number.isNaN(floatValue)) {
 						result.density = floatValue;
 					} else {
-						throw new Error('Invalid srcset descriptor: ' + element + '.');
+						throw new Error(`Invalid srcset descriptor: ${element}`);
 					}
 				});
 
@@ -48,21 +48,21 @@ exports.stringify = array => {
 	return arrayUniq(
 		array.map(element => {
 			if (!element.url) {
-				throw new Error('URL is required.');
+				throw new Error('URL is required');
 			}
 
 			const result = [element.url];
 
 			if (element.width) {
-				result.push(element.width + 'w');
+				result.push(`${element.width}w`);
 			}
 
 			if (element.height) {
-				result.push(element.height + 'h');
+				result.push(`${element.height}h`);
 			}
 
 			if (element.density) {
-				result.push(element.density + 'x');
+				result.push(`${element.density}x`);
 			}
 
 			return result.join(' ');
