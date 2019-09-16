@@ -2,6 +2,7 @@
 const arrayUniq = require('array-uniq');
 
 const integerRegex = /^\d+$/;
+const splitRegex = /.*?\s+\d+[xwh]\s*(?:,|$)\s*/ig;
 
 function deepUnique(array) {
 	return array.sort().filter((element, index) => {
@@ -11,11 +12,12 @@ function deepUnique(array) {
 
 exports.parse = string => {
 	return deepUnique(
-		string.split(',').map(part => {
+		string.match(splitRegex).map(part => {
 			const result = {};
-
+			let singleMatched = false;
 			part
 				.trim()
+				.replace(/\s*,\s*$/, '')
 				.split(/\s+/)
 				.forEach((element, index) => {
 					if (index === 0) {
@@ -29,10 +31,18 @@ exports.parse = string => {
 					const floatValue = parseFloat(value);
 
 					if (postfix === 'w' && integerRegex.test(value)) {
+						if (singleMatched) {
+							throw new Error(`Not allowed w and x on the same candidate: ${element}`);
+						}
+
+						singleMatched = true;
 						result.width = integerValue;
-					} else if (postfix === 'h' && integerRegex.test(value)) {
-						result.height = integerValue;
 					} else if (postfix === 'x' && !Number.isNaN(floatValue)) {
+						if (singleMatched) {
+							throw new Error(`Not allowed w and x on the same candidate: ${element}`);
+						}
+
+						singleMatched = true;
 						result.density = floatValue;
 					} else {
 						throw new Error(`Invalid srcset descriptor: ${element}`);
@@ -51,14 +61,14 @@ exports.stringify = array => {
 				throw new Error('URL is required');
 			}
 
+			if (element.width && element.density) {
+				throw new Error('Not allowed w and x on the same candidate');
+			}
+
 			const result = [element.url];
 
 			if (element.width) {
 				result.push(`${element.width}w`);
-			}
-
-			if (element.height) {
-				result.push(`${element.height}h`);
 			}
 
 			if (element.density) {
