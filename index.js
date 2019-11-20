@@ -1,5 +1,4 @@
 'use strict';
-const arrayUniq = require('array-uniq');
 
 const integerRegex = /^\d+$/;
 
@@ -45,7 +44,7 @@ exports.parse = string => {
 };
 
 exports.stringify = array => {
-	return arrayUniq(
+	return [...new Set(
 		array.map(element => {
 			if (!element.url) {
 				throw new Error('URL is required');
@@ -67,5 +66,5 @@ exports.stringify = array => {
 
 			return result.join(' ');
 		})
-	).join(', ');
+	)].join(', ');
 };
