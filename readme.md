@@ -60,11 +60,11 @@ banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
 
 ### .parse()
 
-Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `height`, `density`.
+Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`.
 
 ### .stringify()
 
-Accepts an array of objects with the possible properties: `url` (required), `width`, `height`, `density` and returns a srcset string.
+Accepts an array of objects with the possible properties: `url` (required), `width`, `density` and returns a srcset string.
 
 
 ---

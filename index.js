@@ -29,8 +29,6 @@ exports.parse = string => {
 
 					if (postfix === 'w' && integerRegex.test(value)) {
 						result.width = integerValue;
-					} else if (postfix === 'h' && integerRegex.test(value)) {
-						result.height = integerValue;
 					} else if (postfix === 'x' && !Number.isNaN(floatValue)) {
 						result.density = floatValue;
 					} else {
@@ -54,10 +52,6 @@ exports.stringify = array => {
 
 			if (element.width) {
 				result.push(`${element.width}w`);
-			}
-
-			if (element.height) {
-				result.push(`${element.height}h`);
 			}
 
 			if (element.density) {
