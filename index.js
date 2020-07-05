@@ -34,6 +34,10 @@ exports.parse = string => {
 					} else {
 						throw new Error(`Invalid srcset descriptor: ${element}`);
 					}
+
+					if (result.width && result.density) {
+						throw new Error('Image candidate string cannot have both width descriptor and pixel density descriptor');
+					}
 				});
 
 			return result;
