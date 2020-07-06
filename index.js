@@ -1,6 +1,6 @@
 'use strict';
 
-const integerRegex = /^\d+$/;
+const integerRegex = /^-?\d+$/;
 
 function deepUnique(array) {
 	return array.sort().filter((element, index) => {
@@ -28,8 +28,16 @@ exports.parse = string => {
 					const floatValue = parseFloat(value);
 
 					if (postfix === 'w' && integerRegex.test(value)) {
+						if (integerValue <= 0) {
+							throw new Error('Width descriptor must be greater than zero');
+						}
+
 						result.width = integerValue;
 					} else if (postfix === 'x' && !Number.isNaN(floatValue)) {
+						if (floatValue <= 0) {
+							throw new Error('Pixel density descriptor must be greater than zero');
+						}
+
 						result.density = floatValue;
 					} else {
 						throw new Error(`Invalid srcset descriptor: ${element}`);

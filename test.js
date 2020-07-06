@@ -12,9 +12,9 @@ test('.parse() should parse srcset', t => {
 });
 
 test('.parse() should not parse srcset', t => {
-	const fixture = 'banner-phone-HD.jpeg 100w 2x';
-
-	t.throws(() => srcset.parse(fixture));
+	t.throws(() => srcset.parse('banner-phone-HD.jpeg 100w 2x'));
+	t.throws(() => srcset.parse('banner-phone-HD.jpeg -100w'));
+	t.throws(() => srcset.parse('banner-phone-HD.jpeg -2x'));
 });
 
 test('.stringify() should stringify srcset', t => {
