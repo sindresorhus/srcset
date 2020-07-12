@@ -1,6 +1,6 @@
 'use strict';
 
-const integerRegex = /^\d+$/;
+const integerRegex = /^-?\d+$/;
 
 function deepUnique(array) {
 	return array.sort().filter((element, index) => {
@@ -10,7 +10,7 @@ function deepUnique(array) {
 
 exports.parse = string => {
 	return deepUnique(
-		string.split(',').map(part => {
+		string.split(/,\s+/).map(part => {
 			const result = {};
 
 			part
@@ -28,13 +28,23 @@ exports.parse = string => {
 					const floatValue = parseFloat(value);
 
 					if (postfix === 'w' && integerRegex.test(value)) {
+						if (integerValue <= 0) {
+							throw new Error('Width descriptor must be greater than zero');
+						}
+
 						result.width = integerValue;
-					} else if (postfix === 'h' && integerRegex.test(value)) {
-						result.height = integerValue;
 					} else if (postfix === 'x' && !Number.isNaN(floatValue)) {
+						if (floatValue <= 0) {
+							throw new Error('Pixel density descriptor must be greater than zero');
+						}
+
 						result.density = floatValue;
 					} else {
 						throw new Error(`Invalid srcset descriptor: ${element}`);
+					}
+
+					if (result.width && result.density) {
+						throw new Error('Image candidate string cannot have both width descriptor and pixel density descriptor');
 					}
 				});
 
@@ -54,10 +64,6 @@ exports.stringify = array => {
 
 			if (element.width) {
 				result.push(`${element.width}w`);
-			}
-
-			if (element.height) {
-				result.push(`${element.height}h`);
 			}
 
 			if (element.density) {

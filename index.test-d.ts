@@ -6,7 +6,6 @@ expectType<srcset.SrcSetDefinition[]>(parsed);
 
 parsed.push({url: 'banner-phone-HD.jpg'});
 parsed.push({url: 'banner-phone-HD.jpg', width: 100});
-parsed.push({url: 'banner-phone-HD.jpg', height: 100});
 parsed.push({url: 'banner-phone-HD.jpg', density: 2});
 expectError(parsed.push({}));
 

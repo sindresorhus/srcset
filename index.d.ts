@@ -2,7 +2,6 @@ declare namespace srcset {
 	interface SrcSetDefinition {
 		url: string;
 		width?: number;
-		height?: number;
 		density?: number;
 	}
 }
