@@ -1,16 +1,17 @@
 {
 	"name": "srcset",
 	"version": "2.0.1",
-	"description": "Parse and stringify the HTML <img> srcset attribute",
+	"description": "Parse and stringify the HTML `<img>` srcset attribute",
 	"license": "MIT",
 	"repository": "sindresorhus/srcset",
+	"funding": "https://github.com/sponsors/sindresorhus",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
+		"url": "https://sindresorhus.com"
 	},
 	"engines": {
-		"node": ">=8"
+		"node": ">=10"
 	},
 	"scripts": {
 		"test": "xo && ava && tsd"
@@ -33,8 +34,8 @@
 		"element"
 	],
 	"devDependencies": {
-		"ava": "^1.4.1",
-		"tsd": "^0.7.2",
-		"xo": "^0.24.0"
+		"ava": "^2.4.0",
+		"tsd": "^0.13.1",
+		"xo": "^0.32.1"
 	}
 }

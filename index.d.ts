@@ -29,7 +29,7 @@ declare const srcset: {
 	// ]
 	```
 	*/
-	parse(srcset: string): srcset.SrcSetDefinition[];
+	parse: (srcset: string) => srcset.SrcSetDefinition[];
 
 	/**
 	Stringify `SrcSetDefinition`s.
@@ -60,7 +60,7 @@ declare const srcset: {
 	// banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
 	```
 	*/
-	stringify(srcSetDefinitions: srcset.SrcSetDefinition[]): string;
+	stringify: (srcSetDefinitions: srcset.SrcSetDefinition[]) => string;
 };
 
 export = srcset;

@@ -11,10 +11,18 @@ test('.parse() should parse srcset', t => {
 	]);
 });
 
-test('.parse() should not parse srcset', t => {
-	t.throws(() => srcset.parse('banner-phone-HD.jpeg 100w 2x'));
-	t.throws(() => srcset.parse('banner-phone-HD.jpeg -100w'));
-	t.throws(() => srcset.parse('banner-phone-HD.jpeg -2x'));
+test('.parse() should not parse invalid srcset', t => {
+	t.throws(() => {
+		srcset.parse('banner-phone-HD.jpeg 100w 2x');
+	});
+
+	t.throws(() => {
+		srcset.parse('banner-phone-HD.jpeg -100w');
+	});
+
+	t.throws(() => {
+		srcset.parse('banner-phone-HD.jpeg -2x');
+	});
 });
 
 test('.stringify() should stringify srcset', t => {
@@ -24,7 +32,7 @@ test('.stringify() should stringify srcset', t => {
 		{url: 'banner-phone.jpeg', width: 100}
 	];
 
-	t.deepEqual(
+	t.is(
 		srcset.stringify(fixture),
 		'banner-HD.jpeg 2x, banner-phone.jpeg 100w'
 	);

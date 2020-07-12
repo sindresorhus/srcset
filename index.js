@@ -22,10 +22,10 @@ exports.parse = string => {
 						return;
 					}
 
-					const value = element.slice(0, element.length - 1);
+					const value = element.slice(0, -1);
 					const postfix = element[element.length - 1];
-					const integerValue = parseInt(value, 10);
-					const floatValue = parseFloat(value);
+					const integerValue = Number.parseInt(value, 10);
+					const floatValue = Number.parseFloat(value);
 
 					if (postfix === 'w' && integerRegex.test(value)) {
 						if (integerValue <= 0) {

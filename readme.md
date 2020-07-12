@@ -1,16 +1,14 @@
-# srcset [![Build Status](https://travis-ci.org/sindresorhus/srcset.svg?branch=master)](https://travis-ci.org/sindresorhus/srcset)
+# srcset [![Build Status](https://travis-ci.com/sindresorhus/srcset.svg?branch=master)](https://travis-ci.com/github/sindresorhus/srcset)
 
 > Parse and stringify the HTML `<img>` [srcset](https://www.smashingmagazine.com/2013/08/webkit-implements-srcset-and-why-its-a-good-thing/) attribute.
 
-Useful if you're creating a polyfill, build-tool, etc.
-
+Can be useful if you're creating a build-tool.
 
 ## Install
 
 ```
 $ npm install srcset
 ```
-
 
 ## Usage
 
@@ -55,7 +53,6 @@ banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
 */
 ```
 
-
 ## API
 
 ### .parse()
@@ -65,7 +62,6 @@ Accepts a srcset string and returns an array of objects with the possible proper
 ### .stringify()
 
 Accepts an array of objects with the possible properties: `url` (required), `width`, `density` and returns a srcset string.
-
 
 ---
 
