@@ -11,6 +11,25 @@ test('.parse() should parse srcset', t => {
 	]);
 });
 
+test('.parse() should parse URLs with commas', t => {
+	const fixture = 'https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_180,q_80,w_320/rbx48jwtuvpwum29aarr.jpg 320w, https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_264,q_80,w_470/rbx48jwtuvpwum29aarr.jpg 470w, https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_80,q_80,w_80/rbx48jwtuvpwum29aarr.jpg 80w';
+
+	t.deepEqual(srcset.parse(fixture), [
+		{
+			url: 'https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_180,q_80,w_320/rbx48jwtuvpwum29aarr.jpg',
+			width: 320
+		},
+		{
+			url: 'https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_264,q_80,w_470/rbx48jwtuvpwum29aarr.jpg',
+			width: 470
+		},
+		{
+			url: 'https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_80,q_80,w_80/rbx48jwtuvpwum29aarr.jpg',
+			width: 80
+		}
+	]);
+});
+
 test('.parse() should not parse invalid srcset', t => {
 	t.throws(() => {
 		srcset.parse('banner-phone-HD.jpeg 100w 2x');
