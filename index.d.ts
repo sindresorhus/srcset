@@ -6,6 +6,9 @@ declare namespace srcset {
 	}
 
 	interface StringifyOption {
+		/**
+		 * @description Whether to strip redundant white spaces
+		 */
 		minify?: boolean;
 	}
 }
