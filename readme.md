@@ -51,17 +51,27 @@ console.log(stringified);
 /*
 banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
 */
+
+const stringifiedAndMinified = srcset.stringify(parsed, {minify: true});
+console.log(stringifiedAndMinified);
+/*
+banner-HD.jpg 2x,banner-phone.jpg 100w,banner-phone-HD.jpg 100w 2x
+*/
 ```
 
 ## API
 
-### .parse()
+### .parse(srcset)
 
-Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`.
+- `srcset`: `<string>` Accepts a srcset string
+- Returns: `<srcset.SrcSetDefinition>` An array of objects with the possible properties: `url` (always), `width`, `density`.
 
-### .stringify()
+### .stringify(srcSetDefinition[, stringifyOption])
 
-Accepts an array of objects with the possible properties: `url` (required), `width`, `density` and returns a srcset string.
+- `srcSetDefinition`: `<srcset.SrcSetDefinition>` Accepts an array of objects with the possible properties: `url` (required), `width`, `density`.
+- `stringifyOption`: `<srcset.StringifyOption>`
+  - `minify`: `<boolean>`: Whether to strip redundant white spaces. Default `false`.
+- Returns: `<string>`: A srcset string
 
 ---
 
