@@ -70,7 +70,8 @@ banner-HD.jpg 2x,banner-phone.jpg 100w,banner-phone-HD.jpg 100w 2x
 
 - `srcSetDefinition`: `<srcset.SrcSetDefinition>` Accepts an array of objects with the possible properties: `url` (required), `width`, `density`.
 - `stringifyOption`: `<srcset.StringifyOption>`
-  - `minify`: `<boolean>`: Whether to strip redundant white spaces. Default `false`.
+  - `minify`: `<boolean>`: Whether to strip redundant white spaces. Default `false`.  
+    **Warning!** Enable `minify` could results in an invalid srcset string!
 - Returns: `<string>`: A srcset string
 
 ---
