@@ -4,6 +4,10 @@ declare namespace srcset {
 		width?: number;
 		density?: number;
 	}
+
+	interface StringifyOption {
+		minify?: boolean;
+	}
 }
 
 declare const srcset: {
@@ -54,13 +58,15 @@ declare const srcset: {
 			width: 100,
 			density: 2
 		}
-	]);
+	], {
+		minify: false
+	});
 
 	console.log(stringified);
 	// banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
 	```
 	*/
-	stringify: (srcSetDefinitions: srcset.SrcSetDefinition[]) => string;
+	stringify: (srcSetDefinitions: srcset.SrcSetDefinition[], stringifyOption?: srcset.StringifyOption) => string;
 };
 
 export = srcset;

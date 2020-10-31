@@ -53,8 +53,8 @@ exports.parse = string => {
 	);
 };
 
-exports.stringify = array => {
-	return [...new Set(
+exports.stringify = (array, {minify} = {minify: false}) => {
+	const results = [...new Set(
 		array.map(element => {
 			if (!element.url) {
 				throw new Error('URL is required');
@@ -72,5 +72,11 @@ exports.stringify = array => {
 
 			return result.join(' ');
 		})
-	)].join(', ');
+	)];
+
+	if (minify) {
+		return results.join(',');
+	}
+
+	return results.join(', ');
 };

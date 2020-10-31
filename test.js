@@ -56,3 +56,21 @@ test('.stringify() should stringify srcset', t => {
 		'banner-HD.jpeg 2x, banner-phone.jpeg 100w'
 	);
 });
+
+test('.stringify() with minify option', t => {
+	const fixture = [
+		{url: 'banner-HD.jpeg', density: 2},
+		{url: 'banner-HD.jpeg', density: 2},
+		{url: 'banner-phone.jpeg', width: 100}
+	];
+
+	t.is(
+		srcset.stringify(fixture, {minify: false}),
+		'banner-HD.jpeg 2x, banner-phone.jpeg 100w'
+	);
+
+	t.is(
+		srcset.stringify(fixture, {minify: true}),
+		'banner-HD.jpeg 2x,banner-phone.jpeg 100w'
+	);
+});
