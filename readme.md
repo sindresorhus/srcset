@@ -1,4 +1,4 @@
-# srcset [![Build Status](https://travis-ci.com/sindresorhus/srcset.svg?branch=master)](https://travis-ci.com/github/sindresorhus/srcset)
+# srcset
 
 > Parse and stringify the HTML `<img>` [srcset](https://www.smashingmagazine.com/2013/08/webkit-implements-srcset-and-why-its-a-good-thing/) attribute.
 
