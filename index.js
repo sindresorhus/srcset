@@ -1,6 +1,6 @@
 'use strict';
 
-const integerRegex = /^-?\d+$/;
+const srcsetRegex = /\s*([^,]\S*[^,](?:\s+[^,]+)?)\s*(?:,|$)/;
 
 function deepUnique(array) {
 	return array.sort().filter((element, index) => {
@@ -10,37 +10,37 @@ function deepUnique(array) {
 
 exports.parse = string => {
 	return deepUnique(
-		string.split(/,\s+/).map(part => {
-			const result = {};
+		string.split(srcsetRegex)
+			.filter((part, index) => index % 2 === 1)
+			.map(part => {
+				const [url, ...descriptors] = part.trim().split(/\s+/);
 
-			part
-				.trim()
-				.split(/\s+/)
-				.forEach((element, index) => {
-					if (index === 0) {
-						result.url = element;
-						return;
+				const result = {url};
+
+				(descriptors.length > 0 ? descriptors : ['1x']).forEach(descriptor => {
+					const postfix = descriptor[descriptor.length - 1];
+					const value = Number.parseFloat(descriptor.slice(0, -1));
+
+					if (Number.isNaN(value)) {
+						throw new TypeError(`${descriptor.slice(0, -1)} is not a valid number`);
 					}
 
-					const value = element.slice(0, -1);
-					const postfix = element[element.length - 1];
-					const integerValue = Number.parseInt(value, 10);
-					const floatValue = Number.parseFloat(value);
-
-					if (postfix === 'w' && integerRegex.test(value)) {
-						if (integerValue <= 0) {
+					if (postfix === 'w') {
+						if (value <= 0) {
 							throw new Error('Width descriptor must be greater than zero');
+						} else if (!Number.isInteger(value)) {
+							throw new TypeError('Width descriptor must be an integer');
 						}
 
-						result.width = integerValue;
-					} else if (postfix === 'x' && !Number.isNaN(floatValue)) {
-						if (floatValue <= 0) {
+						result.width = value;
+					} else if (postfix === 'x') {
+						if (value <= 0) {
 							throw new Error('Pixel density descriptor must be greater than zero');
 						}
 
-						result.density = floatValue;
+						result.density = value;
 					} else {
-						throw new Error(`Invalid srcset descriptor: ${element}`);
+						throw new Error(`Invalid srcset descriptor: ${descriptor}`);
 					}
 
 					if (result.width && result.density) {
@@ -48,8 +48,8 @@ exports.parse = string => {
 					}
 				});
 
-			return result;
-		})
+				return result;
+			})
 	);
 };
 
