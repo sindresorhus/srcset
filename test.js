@@ -53,7 +53,7 @@ test('.parse() should not parse invalid srcset', t => {
 	});
 });
 
-test('.parse() should parse srcset separated without white spaces', t => {
+test('.parse() should parse srcset separated without whitespaces', t => {
 	const fixture = 'banner-HD.jpeg 2x,banner-HD.jpeg 2x,banner-HD.jpeg 2x,banner-phone.jpeg 100w,http://site.com/image.jpg?foo=100w,lorem 1x';
 
 	t.deepEqual(srcset.parse(fixture), [
