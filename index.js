@@ -1,6 +1,21 @@
 'use strict';
 
-const srcsetRegex = /\s*([^,]\S*[^,](?:\s+[^,]+)?)\s*(?:,|$)/;
+/**
+ * This regex represents a loose rule of an "image candidate string":
+ * @see https://html.spec.whatwg.org/multipage/images.html#srcset-attribute
+ *
+ * An "image candidate string" roughly consists of the following:
+ * 1. 0 or more whitespace.
+ * 2. A non-empty url that does not start or end with ",".
+ * 3. 0 or more whitespace.
+ * 4. An optional "descriptor" that starts with a whitespace.
+ * 5. 0 or more whitespace.
+ * 6. Each image candidate string is separated by a ",".
+ *
+ * We intentionally implements a loose rule here so that we can perform
+ * more aggressive error handling and reporting in the code below.
+ */
+const imageCandidateRegex = /\s*([^,]\S*[^,](?:\s+[^,]+)?)\s*(?:,|$)/;
 
 function deepUnique(array) {
 	return array.sort().filter((element, index) => {
@@ -10,14 +25,16 @@ function deepUnique(array) {
 
 exports.parse = string => {
 	return deepUnique(
-		string.split(srcsetRegex)
+		string.split(imageCandidateRegex)
 			.filter((part, index) => index % 2 === 1)
 			.map(part => {
-				const [url, ...descriptors] = part.trim().split(/\s+/);
+				const [url, ...elements] = part.trim().split(/\s+/);
 
 				const result = {url};
 
-				(descriptors.length > 0 ? descriptors : ['1x']).forEach(descriptor => {
+				const descriptors = elements.length > 0 ? elements : ['1x'];
+
+				for (const descriptor of descriptors) {
 					const postfix = descriptor[descriptor.length - 1];
 					const value = Number.parseFloat(descriptor.slice(0, -1));
 
@@ -46,7 +63,7 @@ exports.parse = string => {
 					if (result.width && result.density) {
 						throw new Error('Image candidate string cannot have both width descriptor and pixel density descriptor');
 					}
-				});
+				}
 
 				return result;
 			})
