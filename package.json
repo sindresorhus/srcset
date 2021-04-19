@@ -1,6 +1,6 @@
 {
 	"name": "srcset",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"description": "Parse and stringify the HTML `<img>` srcset attribute",
 	"license": "MIT",
 	"repository": "sindresorhus/srcset",
