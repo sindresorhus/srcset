@@ -15,9 +15,11 @@ $ npm install srcset
 How an image with `srcset` might look like:
 
 ```html
-<img alt="The Breakfast Combo"
-     src="banner.jpg"
-     srcset="banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x">
+<img
+	alt="The Breakfast Combo"
+	src="banner.jpg"
+	srcset="banner-HD.jpg 2x, banner-phone.jpg 100w"
+>
 ```
 
 Then have some fun with it:
@@ -41,15 +43,14 @@ console.log(parsed);
 */
 
 parsed.push({
-	url: 'banner-phone-HD.jpg',
-	width: 100,
-	density: 2
+	url: 'banner-super-HD.jpg',
+	density: 3
 });
 
 const stringified = srcset.stringify(parsed);
 console.log(stringified);
 /*
-banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
+banner-HD.jpg 2x, banner-phone.jpg 100w, banner-super-HD.jpg 3x
 */
 ```
 
