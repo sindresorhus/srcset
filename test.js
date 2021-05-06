@@ -66,7 +66,6 @@ test('.parse() should parse srcset separated without whitespaces', t => {
 test('.stringify() should stringify srcset', t => {
 	const fixture = [
 		{url: 'banner-HD.jpeg', density: 2},
-		{url: 'banner-HD.jpeg', density: 2},
 		{url: 'banner-phone.jpeg', width: 100}
 	];
 
@@ -76,11 +75,11 @@ test('.stringify() should stringify srcset', t => {
 	);
 });
 
-const invalidSrcsets = [
+const invalidStrings = [
 	'banner.jpeg, fallback.jpeg', // Multiple fallback images
 	'banner-phone-HD.jpg 100w 2x', // Multiple descriptors
 	'banner-HD.jpeg 2x, banner.jpeg 2x', // Multiple images with the same descriptor
-	'banner-phone.jpeg 100h', // Height attribute
+	'banner-phone.jpeg 100h', // Height descriptor
 	'banner-phone.jpeg 100.1w', // Non-integer width
 	'banner-phone.jpeg -100w', // Negative width
 	'banner-hd.jpeg -2x', // Negative density
@@ -88,7 +87,7 @@ const invalidSrcsets = [
 	'banner.jpeg nonsense' // Nonsense descriptor
 ];
 
-invalidSrcsets.forEach(invalidSrcset => {
+invalidStrings.forEach(invalidSrcset => {
 	test(`.parse() should throw on invalid input when strict mode is enabled: "${invalidSrcset}"`, t => {
 		t.throws(() => {
 			srcset.parse(invalidSrcset, {strict: true});
@@ -96,9 +95,36 @@ invalidSrcsets.forEach(invalidSrcset => {
 	});
 });
 
-invalidSrcsets.forEach(invalidSrcset => {
-	test(`.parse() should not throw on invalid input when strict mode is disabled: "${invalidSrcset}`, t => {
+invalidStrings.forEach(invalidSrcset => {
+	test(`.parse() should not throw on invalid input when strict mode is disabled: "${invalidSrcset}"`, t => {
 		srcset.parse(invalidSrcset, {strict: false});
+		t.pass();
+	});
+});
+
+const invalidArrays = [
+	[{url: 'banner.jpeg'}, {url: 'fallback.jpeg'}], // Multiple fallback images
+	[{url: 'banner-phone-HD.jpg', width: 100, density: 2}], // Multiple descriptors
+	[{url: 'banner-HD.jpeg', density: 2}, {url: 'banner.jpeg', density: 2}], // Multiple images with the same descriptor
+	[{url: 'banner-phone.jpeg', height: 100}], // Height descriptor
+	[{url: 'banner-phone.jpeg', width: 100.1}], // Non-integer width
+	[{url: 'banner-phone.jpeg', width: -100}], // Negative width
+	[{url: 'banner-hd.jpeg', density: -2}], // Negative density
+	[{url: 'banner.jpeg', width: Number.NaN}], // Invalid descriptor
+	[{url: 'banner.jpeg', width: 'nonsense'}] // Nonsense descriptor
+];
+
+invalidArrays.forEach(invalidSrcset => {
+	test(`.stringify() should throw on invalid input when strict mode is enabled: ${JSON.stringify(invalidSrcset)}`, t => {
+		t.throws(() => {
+			srcset.stringify(invalidSrcset, {strict: true});
+		});
+	});
+});
+
+invalidArrays.forEach(invalidSrcset => {
+	test(`.stringify() should not throw on invalid input when strict mode is disabled: ${JSON.stringify(invalidSrcset)}`, t => {
+		srcset.stringify(invalidSrcset, {strict: false});
 		t.pass();
 	});
 });

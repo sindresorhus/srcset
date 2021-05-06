@@ -62,9 +62,13 @@ Accepts a srcset string and returns an array of objects with the possible proper
 
 If options is set to `{strict: false}`, it will attempt to parse invalid input. Otherwise errors are thrown on invalid input.
 
-### .stringify()
+### .stringify(array, [options])
 
-Accepts an array of objects with the possible properties: `url` (required), `width`, `density` and returns a srcset string.
+Accepts an array of objects with the possible properties: `url` (required), and one of `width` or `density` and returns a srcset string.
+
+By default it will validate the objects and throw an error if they would produce an invalid srcset string.
+
+If options is set to `{strict: false}`, it will skip validation.
 
 ---
 

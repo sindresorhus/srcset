@@ -19,20 +19,46 @@ const imageCandidateRegex = /\s*([^,]\S*[^,](?:\s+[^,]+)?)\s*(?:,|$)/;
 
 const FALLBACK_DESCRIPTOR = '';
 
-const checkDescriptor = (strict, allDescriptors, descriptor) => {
-	if (!strict) {
-		return;
-	}
-
+const duplicateDescriptorCheck = (allDescriptors, descriptor) => {
 	if (allDescriptors.has(descriptor)) {
 		if (descriptor === FALLBACK_DESCRIPTOR) {
-			throw new Error('Only one fallback image is allowed');
+			throw new Error('Only one fallback image candidate is allowed');
 		} else {
 			throw new Error(`No more than one image candidate is allowed for a given descriptor: ${descriptor}`);
 		}
 	}
 
 	allDescriptors.add(descriptor);
+};
+
+const descriptorCountyCheck = (allDescriptors, currentDescriptors) => {
+	if (currentDescriptors.length === 0) {
+		duplicateDescriptorCheck(allDescriptors, FALLBACK_DESCRIPTOR);
+	} else if (currentDescriptors.length > 1) {
+		throw new Error(`Image candidate may have no more than one descriptor, found ${currentDescriptors.length}: ${currentDescriptors.join(' ')}`);
+	}
+};
+
+const validDescriptorCheck = (value, postfix, descriptor) => {
+	if (Number.isNaN(value)) {
+		throw new TypeError(`${descriptor || value} is not a valid number`);
+	}
+
+	if (postfix === 'w') {
+		if (value <= 0) {
+			throw new Error('Width descriptor must be greater than zero');
+		} else if (!Number.isInteger(value)) {
+			throw new TypeError('Width descriptor must be an integer');
+		}
+	} else if (postfix === 'x') {
+		if (value <= 0) {
+			throw new Error('Pixel density descriptor must be greater than zero');
+		}
+	} else if (postfix === 'h') {
+		throw new Error('Height descriptor is no longer allowed');
+	} else {
+		throw new Error(`Invalid srcset descriptor: ${descriptor}`);
+	}
 };
 
 exports.parse = (string, options = {strict: true}) => {
@@ -45,52 +71,27 @@ exports.parse = (string, options = {strict: true}) => {
 
 			const result = {url};
 
-			if (elements.length === 0) {
-				checkDescriptor(strict, allDescriptors, FALLBACK_DESCRIPTOR);
-			}
-
 			const descriptors = elements.length > 0 ? elements : ['1x'];
 
-			if (strict && descriptors.length > 1) {
-				throw new Error(`Image candidate may have no more than one descriptor, found ${descriptors.length}: ${part}`);
+			if (strict) {
+				descriptorCountyCheck(allDescriptors, elements);
 			}
 
 			for (const descriptor of descriptors) {
 				const postfix = descriptor[descriptor.length - 1];
 				const value = Number.parseFloat(descriptor.slice(0, -1));
 
-				checkDescriptor(strict, allDescriptors, descriptor);
-
-				if (Number.isNaN(value)) {
-					if (strict) {
-						throw new TypeError(`${descriptor.slice(0, -1)} is not a valid number`);
-					} else {
-						continue;
-					}
+				if (strict) {
+					validDescriptorCheck(value, postfix, descriptor);
+					duplicateDescriptorCheck(allDescriptors, descriptor);
 				}
 
 				if (postfix === 'w') {
-					if (strict && value <= 0) {
-						throw new Error('Width descriptor must be greater than zero');
-					} else if (strict && !Number.isInteger(value)) {
-						throw new TypeError('Width descriptor must be an integer');
-					}
-
 					result.width = value;
 				} else if (postfix === 'h') {
-					if (strict) {
-						throw new Error(`Height descriptor is no longer allowed: ${descriptor}`);
-					}
-
 					result.height = value;
 				} else if (postfix === 'x') {
-					if (strict && value <= 0) {
-						throw new Error('Pixel density descriptor must be greater than zero');
-					}
-
 					result.density = value;
-				} else if (strict) {
-					throw new Error(`Invalid srcset descriptor: ${descriptor}`);
 				}
 			}
 
@@ -98,24 +99,49 @@ exports.parse = (string, options = {strict: true}) => {
 		});
 };
 
-exports.stringify = array => {
-	return [...new Set(
-		array.map(element => {
-			if (!element.url) {
+const knownDescriptors = new Set(['width', 'height', 'density']);
+
+exports.stringify = (array, options = {strict: true}) => {
+	const strict = options.strict !== false;
+	const allDescriptors = strict ? new Set() : null;
+	return array.map(element => {
+		if (!element.url) {
+			if (strict) {
 				throw new Error('URL is required');
 			}
 
-			const result = [element.url];
+			return '';
+		}
 
-			if (element.width) {
-				result.push(`${element.width}w`);
+		const descriptorKeys = Object.keys(element).filter(key => knownDescriptors.has(key));
+
+		if (strict) {
+			descriptorCountyCheck(allDescriptors, descriptorKeys);
+		}
+
+		const result = [element.url];
+
+		descriptorKeys.forEach(descriptorKey => {
+			const value = element[descriptorKey];
+			let postfix;
+			if (descriptorKey === 'width') {
+				postfix = 'w';
+			} else if (descriptorKey === 'height') {
+				postfix = 'h';
+			} else if (descriptorKey === 'density') {
+				postfix = 'x';
 			}
 
-			if (element.density) {
-				result.push(`${element.density}x`);
+			const descriptor = `${value}${postfix}`;
+
+			if (strict) {
+				validDescriptorCheck(value, postfix);
+				duplicateDescriptorCheck(allDescriptors, descriptor);
 			}
 
-			return result.join(' ');
-		})
-	)].join(', ');
+			result.push(descriptor);
+		});
+
+		return result.join(' ');
+	}).join(', ');
 };
