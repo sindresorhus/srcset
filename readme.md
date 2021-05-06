@@ -15,9 +15,11 @@ $ npm install srcset
 How an image with `srcset` might look like:
 
 ```html
-<img alt="The Breakfast Combo"
-     src="banner.jpg"
-     srcset="banner-HD.jpg 2x, banner-phone.jpg 100w">
+<img
+	alt="The Breakfast Combo"
+	src="banner.jpg"
+	srcset="banner-HD.jpg 2x, banner-phone.jpg 100w"
+>
 ```
 
 Then have some fun with it:
