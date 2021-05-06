@@ -56,9 +56,11 @@ banner-HD.jpg 2x, banner-phone.jpg 100w, banner-super-HD.jpg 3x
 
 ## API
 
-### .parse()
+### .parse(string, [options])
 
 Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`.
+
+If options is set to `{strict: false}`, it will attempt to parse invalid input. Otherwise errors are thrown on invalid input.
 
 ### .stringify()
 

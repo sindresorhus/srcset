@@ -2,7 +2,7 @@ import test from 'ava';
 import srcset from '.';
 
 test('.parse() should parse srcset', t => {
-	const fixture = '  banner-HD.jpeg 2x,   banner-HD.jpeg 2x,  banner-HD.jpeg 2x,    banner-phone.jpeg   100w, http://site.com/image.jpg?foo=bar,lorem 3x ,banner.jpeg    ';
+	const fixture = ' banner-HD.jpeg 2x,    banner-phone.jpeg   100w, http://site.com/image.jpg?foo=bar,lorem 3x ,banner.jpeg    ';
 
 	t.deepEqual(srcset.parse(fixture), [
 		{url: 'banner-HD.jpeg', density: 2},
@@ -54,7 +54,7 @@ test('.parse() should not parse invalid srcset', t => {
 });
 
 test('.parse() should parse srcset separated without whitespaces', t => {
-	const fixture = 'banner-HD.jpeg 2x,banner-HD.jpeg 2x,banner-HD.jpeg 2x,banner-phone.jpeg 100w,http://site.com/image.jpg?foo=100w,lorem 1x';
+	const fixture = 'banner-HD.jpeg 2x,banner-phone.jpeg 100w,http://site.com/image.jpg?foo=100w,lorem 1x';
 
 	t.deepEqual(srcset.parse(fixture), [
 		{url: 'banner-HD.jpeg', density: 2},
@@ -74,4 +74,31 @@ test('.stringify() should stringify srcset', t => {
 		srcset.stringify(fixture),
 		'banner-HD.jpeg 2x, banner-phone.jpeg 100w'
 	);
+});
+
+const invalidSrcsets = [
+	'banner.jpeg, fallback.jpeg', // Multiple fallback images
+	'banner-phone-HD.jpg 100w 2x', // Multiple descriptors
+	'banner-HD.jpeg 2x, banner.jpeg 2x', // Multiple images with the same descriptor
+	'banner-phone.jpeg 100h', // Height attribute
+	'banner-phone.jpeg 100.1w', // Non-integer width
+	'banner-phone.jpeg -100w', // Negative width
+	'banner-hd.jpeg -2x', // Negative density
+	'banner.jpeg 3q', // Invalid descriptor
+	'banner.jpeg nonsense' // Nonsense descriptor
+];
+
+invalidSrcsets.forEach(invalidSrcset => {
+	test(`.parse() should throw on invalid input when strict mode is enabled: "${invalidSrcset}"`, t => {
+		t.throws(() => {
+			srcset.parse(invalidSrcset, {strict: true});
+		});
+	});
+});
+
+invalidSrcsets.forEach(invalidSrcset => {
+	test(`.parse() should not throw on invalid input when strict mode is disabled: "${invalidSrcset}`, t => {
+		srcset.parse(invalidSrcset, {strict: false});
+		t.pass();
+	});
 });
