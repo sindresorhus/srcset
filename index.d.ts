@@ -2,16 +2,12 @@ declare namespace srcset {
 	interface SrcSetDefinition {
 		url: string;
 		width?: number;
-		/**
-		 * @deprecated height is no longer allowed in the srcset specification
-		 */
-		height?: number;
 		density?: number;
 	}
 
 	interface SrcSetOptions {
 		/**
-		 * Enable or disable strict mode. 
+		 * Enable or disable strict mode.
 		 * Defaults to true
 		 */
 		strict?: boolean;
