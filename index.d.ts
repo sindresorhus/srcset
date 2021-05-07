@@ -10,6 +10,10 @@ declare namespace srcset {
 	}
 
 	interface SrcSetOptions {
+		/**
+		 * Enable or disable strict mode. 
+		 * Defaults to true
+		 */
 		strict?: boolean;
 	}
 }
