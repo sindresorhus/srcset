@@ -2,7 +2,15 @@ declare namespace srcset {
 	interface SrcSetDefinition {
 		url: string;
 		width?: number;
+		/**
+		 * @deprecated height is no longer allowed in the srcset specification
+		 */
+		height?: number;
 		density?: number;
+	}
+
+	interface SrcSetOptions {
+		strict?: boolean;
 	}
 }
 
@@ -29,7 +37,7 @@ declare const srcset: {
 	// ]
 	```
 	*/
-	parse: (srcset: string) => srcset.SrcSetDefinition[];
+	parse: (srcset: string, options?: srcset.SrcSetOptions) => srcset.SrcSetDefinition[];
 
 	/**
 	Stringify `SrcSetDefinition`s.
@@ -60,7 +68,7 @@ declare const srcset: {
 	// banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
 	```
 	*/
-	stringify: (srcSetDefinitions: srcset.SrcSetDefinition[]) => string;
+	stringify: (srcSetDefinitions: srcset.SrcSetDefinition[], options?: srcset.SrcSetOptions) => string;
 };
 
 export = srcset;

@@ -62,8 +62,7 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 };
 
 exports.parse = (string, {strict = true} = {}) => {
-	const strict = options.strict !== false;
-	const allDescriptors = strict ? new Set() : null;
+	const allDescriptors = strict ? new Set() : undefined;
 	return string.split(imageCandidateRegex)
 		.filter((part, index) => index % 2 === 1)
 		.map(part => {
@@ -101,8 +100,7 @@ exports.parse = (string, {strict = true} = {}) => {
 
 const knownDescriptors = new Set(['width', 'height', 'density']);
 
-exports.stringify = (array, options = {strict: true}) => {
-	const strict = options.strict !== false;
+exports.stringify = (array, {strict = true} = {}) => {
 	const allDescriptors = strict ? new Set() : null;
 	return array.map(element => {
 		if (!element.url) {
@@ -121,7 +119,7 @@ exports.stringify = (array, options = {strict: true}) => {
 
 		const result = [element.url];
 
-		descriptorKeys.forEach(descriptorKey => {
+		for (const descriptorKey of descriptorKeys) {
 			const value = element[descriptorKey];
 			let postfix;
 			if (descriptorKey === 'width') {
@@ -140,7 +138,7 @@ exports.stringify = (array, options = {strict: true}) => {
 			}
 
 			result.push(descriptor);
-		});
+		}
 
 		return result.join(' ');
 	}).join(', ');

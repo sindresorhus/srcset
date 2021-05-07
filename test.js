@@ -124,7 +124,8 @@ invalidArrays.forEach(invalidSrcset => {
 
 invalidArrays.forEach(invalidSrcset => {
 	test(`.stringify() should not throw on invalid input when strict mode is disabled: ${JSON.stringify(invalidSrcset)}`, t => {
-		srcset.stringify(invalidSrcset, {strict: false});
-		t.pass();
+		t.notThrows(() => {
+			srcset.stringify(invalidSrcset, {strict: false});
+		});
 	});
 });
