@@ -56,7 +56,7 @@ banner-HD.jpg 2x, banner-phone.jpg 100w, banner-super-HD.jpg 3x
 
 ## API
 
-### .parse(string, [options])
+### .parse(string, options?)
 
 Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`.
 

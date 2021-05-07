@@ -61,7 +61,7 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 	}
 };
 
-exports.parse = (string, options = {strict: true}) => {
+exports.parse = (string, {strict = true} = {}) => {
 	const strict = options.strict !== false;
 	const allDescriptors = strict ? new Set() : null;
 	return string.split(imageCandidateRegex)
