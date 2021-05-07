@@ -58,9 +58,27 @@ banner-HD.jpg 2x, banner-phone.jpg 100w, banner-super-HD.jpg 3x
 
 ### .parse(string, options?)
 
-Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`.
+Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`, and `height`.
 
-If options is set to `{strict: false}`, it will attempt to parse invalid input. Otherwise errors are thrown on invalid input.
+In strict mode (default), it will throw on invalid input. Return objects will have either `width` or `density`.
+
+If options is set to `{strict: false}`, it will attempt to parse invalid input and recognize the `height` descriptor. Returned objects may have multiple descriptor fields (e.g. `width` and `density`).
+
+#### string
+
+Type: `string`
+
+srcset string
+
+#### options
+
+Type: `object`
+
+##### strict
+
+Type: `boolean`
+
+Enable or disable strict mode
 
 ### .stringify(array, options?)
 
@@ -68,7 +86,23 @@ Accepts an array of objects with the possible properties: `url` (required), and 
 
 By default it will validate the objects and throw an error if they would produce an invalid srcset string.
 
-If options is set to `{strict: false}`, it will skip validation.
+If options is set to `{strict: false}`, it will skip validation and also allow for a `height` field.
+
+#### array
+
+Type: `array`
+
+An array of objects. Each object should have a `url` field and may have either `width` or `density`.
+
+#### options
+
+Type: `object`
+
+##### strict
+
+Type: `boolean`
+
+Enable or disable strict mode
 
 ---
 

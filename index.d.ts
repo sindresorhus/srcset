@@ -56,16 +56,11 @@ declare const srcset: {
 		{
 			url: 'banner-phone.jpg',
 			width: 100
-		},
-		{
-			url: 'banner-phone-HD.jpg',
-			width: 100,
-			density: 2
 		}
 	]);
 
 	console.log(stringified);
-	// banner-HD.jpg 2x, banner-phone.jpg 100w, banner-phone-HD.jpg 100w 2x
+	// banner-HD.jpg 2x, banner-phone.jpg 100w
 	```
 	*/
 	stringify: (srcSetDefinitions: srcset.SrcSetDefinition[], options?: srcset.SrcSetOptions) => string;
