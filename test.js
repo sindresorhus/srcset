@@ -87,20 +87,20 @@ const invalidStrings = [
 	'banner.jpeg nonsense' // Nonsense descriptor
 ];
 
-invalidStrings.forEach(invalidSrcset => {
+for (const invalidSrcset of invalidStrings) {
 	test(`.parse() should throw on invalid input when strict mode is enabled: "${invalidSrcset}"`, t => {
 		t.throws(() => {
 			srcset.parse(invalidSrcset, {strict: true});
 		});
 	});
-});
+}
 
-invalidStrings.forEach(invalidSrcset => {
+for (const invalidSrcset of invalidStrings) {
 	test(`.parse() should not throw on invalid input when strict mode is disabled: "${invalidSrcset}"`, t => {
 		srcset.parse(invalidSrcset, {strict: false});
 		t.pass();
 	});
-});
+}
 
 const invalidArrays = [
 	[{url: 'banner.jpeg'}, {url: 'fallback.jpeg'}], // Multiple fallback images
@@ -114,18 +114,18 @@ const invalidArrays = [
 	[{url: 'banner.jpeg', width: 'nonsense'}] // Nonsense descriptor
 ];
 
-invalidArrays.forEach(invalidSrcset => {
+for (const invalidSrcset of invalidArrays) {
 	test(`.stringify() should throw on invalid input when strict mode is enabled: ${JSON.stringify(invalidSrcset)}`, t => {
 		t.throws(() => {
 			srcset.stringify(invalidSrcset, {strict: true});
 		});
 	});
-});
+}
 
-invalidArrays.forEach(invalidSrcset => {
+for (const invalidSrcset of invalidArrays) {
 	test(`.stringify() should not throw on invalid input when strict mode is disabled: ${JSON.stringify(invalidSrcset)}`, t => {
 		t.notThrows(() => {
 			srcset.stringify(invalidSrcset, {strict: false});
 		});
 	});
-});
+}
