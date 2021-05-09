@@ -7,8 +7,9 @@ declare namespace srcset {
 
 	interface SrcSetOptions {
 		/**
-		 * Enable or disable strict mode.
-		 * Defaults to true
+		 * When strict mode is enabled, errors will be thrown on invalid input.
+		 * When disabled, a best effort will be made to handle invalid input and no errors will be thrown. The output may be invalid.
+		 * @default true
 		 */
 		strict?: boolean;
 	}
