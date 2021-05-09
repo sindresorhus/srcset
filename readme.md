@@ -58,17 +58,15 @@ banner-HD.jpg 2x, banner-phone.jpg 100w, banner-super-HD.jpg 3x
 
 ### .parse(string, options?)
 
+Parse the HTML `<img>` [srcset](http://mobile.smashingmagazine.com/2013/08/21/webkit-implements-srcset-and-why-its-a-good-thing/) attribute.
+
 Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`, and `height`.
-
-In strict mode (default), it will throw on invalid input. Return objects will have either `width` or `density`.
-
-If options is set to `{strict: false}`, it will attempt to parse invalid input and recognize the `height` descriptor. Returned objects may have multiple descriptor fields (e.g. `width` and `density`).
 
 #### string
 
 Type: `string`
 
-srcset string
+A srcset string
 
 #### options
 
@@ -78,21 +76,19 @@ Type: `object`
 
 Type: `boolean`
 
-Enable or disable strict mode
+Default: `true`
 
-### .stringify(array, options?)
+Enable or disable validation of the srcset string. When enabled, an invalid srcset string will cause an error to be thrown. When disabled, a best effort will be made to parse the string, potentially resulting in invalid or nonsensical output.
 
-Accepts an array of objects with the possible properties: `url` (required), and one of `width` or `density` and returns a srcset string.
+### .stringify(SrcSetDefinitions, options?)
 
-By default it will validate the objects and throw an error if they would produce an invalid srcset string.
+Stringify `SrcSetDefinition`s. Accepts an array of `SrcSetDefinition` objects and returns a srcset string.
 
-If options is set to `{strict: false}`, it will skip validation and also allow for a `height` field.
-
-#### array
+#### srcsetDescriptors
 
 Type: `array`
 
-An array of objects. Each object should have a `url` field and may have either `width` or `density`.
+An array of `SrcSetDefinition` objects. Each object should have a `url` field and may have either `width` or `density`. When `options.strict` is set to false, a `height` field is also accepted, and multiple descriptors (`width`, `height`, and`density`) are accepted.
 
 #### options
 
@@ -102,7 +98,9 @@ Type: `object`
 
 Type: `boolean`
 
-Enable or disable strict mode
+Default: `true`
+
+Enable or disable validation of the SrcSetDefinitions. When true, invalid input will cause an error to be thrown. When false, a best effort will be made to stringify invalid input, likely resulting in invalid srcset value.
 
 ---
 

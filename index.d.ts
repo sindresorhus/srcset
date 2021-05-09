@@ -19,7 +19,12 @@ declare const srcset: {
 	/**
 	Parse the HTML `<img>` [srcset](http://mobile.smashingmagazine.com/2013/08/21/webkit-implements-srcset-and-why-its-a-good-thing/) attribute.
 
+	Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`, and `height`.
+
 	@param srcset - A srcset string.
+
+	@param [options]
+	@param [options.strict=true] - Enable or disable validation of the srcset string. When enabled, an invalid srcset string will cause an error to be thrown. When disabled, a best effort will be made to parse the string, potentially resulting in invalid or nonsensical output.
 
 	@example
 	```
@@ -41,7 +46,12 @@ declare const srcset: {
 	parse: (srcset: string, options?: srcset.SrcSetOptions) => srcset.SrcSetDefinition[];
 
 	/**
-	Stringify `SrcSetDefinition`s.
+	Stringify `SrcSetDefinition`s. Accepts an array of `SrcSetDefinition` objects and returns a srcset string.
+
+	@param SrcSetDefinitions - An array of `SrcSetDefinition` objects. Each object should have a `url` field and may have either `width` or `density`. When `options.strict` is set to false, a `height` field is also accepted, and multiple descriptors (`width`, `height`, and`density`) are accepted.
+
+	@param [options]
+	@param [options.strict=true] - Enable or disable validation of the SrcSetDefinitions. When true, invalid input will cause an error to be thrown. When false, a best effort will be made to stringify invalid input, likely resulting in invalid srcset value.
 
 	@returns A srcset string.
 
