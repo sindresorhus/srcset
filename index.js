@@ -31,7 +31,7 @@ const duplicateDescriptorCheck = (allDescriptors, descriptor) => {
 	allDescriptors.add(descriptor);
 };
 
-const descriptorCountyCheck = (allDescriptors, currentDescriptors) => {
+const descriptorCountCheck = (allDescriptors, currentDescriptors) => {
 	if (currentDescriptors.length === 0) {
 		duplicateDescriptorCheck(allDescriptors, FALLBACK_DESCRIPTOR);
 	} else if (currentDescriptors.length > 1) {
@@ -73,7 +73,7 @@ exports.parse = (string, {strict = true} = {}) => {
 			const descriptors = elements.length > 0 ? elements : ['1x'];
 
 			if (strict) {
-				descriptorCountyCheck(allDescriptors, elements);
+				descriptorCountCheck(allDescriptors, elements);
 			}
 
 			for (const descriptor of descriptors) {
@@ -114,7 +114,7 @@ exports.stringify = (array, {strict = true} = {}) => {
 		const descriptorKeys = Object.keys(element).filter(key => knownDescriptors.has(key));
 
 		if (strict) {
-			descriptorCountyCheck(allDescriptors, descriptorKeys);
+			descriptorCountCheck(allDescriptors, descriptorKeys);
 		}
 
 		const result = [element.url];
