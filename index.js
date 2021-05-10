@@ -17,23 +17,30 @@ We intentionally implement a loose rule here so that we can perform more aggress
 */
 const imageCandidateRegex = /\s*([^,]\S*[^,](?:\s+[^,]+)?)\s*(?:,|$)/;
 
-const FALLBACK_DESCRIPTOR = '';
-
-const duplicateDescriptorCheck = (allDescriptors, descriptor) => {
-	if (allDescriptors.has(descriptor)) {
-		if (descriptor === FALLBACK_DESCRIPTOR) {
-			throw new Error('Only one fallback image candidate is allowed');
-		} else {
-			throw new Error(`No more than one image candidate is allowed for a given descriptor: ${descriptor}`);
-		}
+const duplicateDescriptorCheck = (allDescriptors, value, postfix) => {
+	allDescriptors[postfix] = allDescriptors[postfix] || {};
+	if (allDescriptors[postfix][value]) {
+		throw new Error(`No more than one image candidate is allowed for a given descriptor: ${value}${postfix}`);
 	}
 
-	allDescriptors.add(descriptor);
+	allDescriptors[postfix][value] = true;
+};
+
+const fallbackDescriptorDuplicateCheck = allDescriptors => {
+	if (allDescriptors.fallback) {
+		throw new Error('Only one fallback image candidate is allowed');
+	}
+
+	if (allDescriptors.x['1']) {
+		throw new Error('A fallback image is equivalent to a 1x descriptor, providing both is invalid.');
+	}
+
+	allDescriptors.fallback = true;
 };
 
 const descriptorCountCheck = (allDescriptors, currentDescriptors) => {
 	if (currentDescriptors.length === 0) {
-		duplicateDescriptorCheck(allDescriptors, FALLBACK_DESCRIPTOR);
+		fallbackDescriptorDuplicateCheck(allDescriptors);
 	} else if (currentDescriptors.length > 1) {
 		throw new Error(`Image candidate may have no more than one descriptor, found ${currentDescriptors.length}: ${currentDescriptors.join(' ')}`);
 	}
@@ -62,18 +69,16 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 };
 
 exports.parse = (string, {strict = true} = {}) => {
-	const allDescriptors = strict ? new Set() : undefined;
+	const allDescriptors = strict ? {} : undefined;
 	return string.split(imageCandidateRegex)
 		.filter((part, index) => index % 2 === 1)
 		.map(part => {
-			const [url, ...elements] = part.trim().split(/\s+/);
+			const [url, ...descriptors] = part.trim().split(/\s+/);
 
 			const result = {url};
 
-			const descriptors = elements.length > 0 ? elements : ['1x'];
-
 			if (strict) {
-				descriptorCountCheck(allDescriptors, elements);
+				descriptorCountCheck(allDescriptors, descriptors);
 			}
 
 			for (const descriptor of descriptors) {
@@ -82,7 +87,7 @@ exports.parse = (string, {strict = true} = {}) => {
 
 				if (strict) {
 					validDescriptorCheck(value, postfix, descriptor);
-					duplicateDescriptorCheck(allDescriptors, descriptor);
+					duplicateDescriptorCheck(allDescriptors, value, postfix);
 				}
 
 				if (postfix === 'w') {
@@ -101,7 +106,7 @@ exports.parse = (string, {strict = true} = {}) => {
 const knownDescriptors = new Set(['width', 'height', 'density']);
 
 exports.stringify = (array, {strict = true} = {}) => {
-	const allDescriptors = strict ? new Set() : null;
+	const allDescriptors = strict ? {} : null;
 	return array.map(element => {
 		if (!element.url) {
 			if (strict) {
@@ -134,7 +139,7 @@ exports.stringify = (array, {strict = true} = {}) => {
 
 			if (strict) {
 				validDescriptorCheck(value, postfix);
-				duplicateDescriptorCheck(allDescriptors, descriptor);
+				duplicateDescriptorCheck(allDescriptors, value, postfix);
 			}
 
 			result.push(descriptor);

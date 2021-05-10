@@ -8,7 +8,7 @@ test('.parse() should parse srcset', t => {
 		{url: 'banner-HD.jpeg', density: 2},
 		{url: 'banner-phone.jpeg', width: 100},
 		{url: 'http://site.com/image.jpg?foo=bar,lorem', density: 3},
-		{url: 'banner.jpeg', density: 1}
+		{url: 'banner.jpeg'}
 	]);
 });
 
@@ -84,7 +84,9 @@ const invalidStrings = [
 	'banner-phone.jpeg -100w', // Negative width
 	'banner-hd.jpeg -2x', // Negative density
 	'banner.jpeg 3q', // Invalid descriptor
-	'banner.jpeg nonsense' // Nonsense descriptor
+	'banner.jpeg nonsense', // Nonsense descriptor
+	'banner.jpg 1x, fallback.jpg', // Duplicate descriptor because the fallback is equivalent to 1x
+	'banner.jpg 2x, other.jpg 2.0x' // Duplicate descriptors after normalizing
 ];
 
 for (const invalidSrcset of invalidStrings) {
@@ -111,7 +113,9 @@ const invalidArrays = [
 	[{url: 'banner-phone.jpeg', width: -100}], // Negative width
 	[{url: 'banner-hd.jpeg', density: -2}], // Negative density
 	[{url: 'banner.jpeg', width: Number.NaN}], // Invalid descriptor
-	[{url: 'banner.jpeg', width: 'nonsense'}] // Nonsense descriptor
+	[{url: 'banner.jpeg', width: 'nonsense'}], // Nonsense descriptor
+	[{url: 'banner.jpg', density: 1}, {url: 'fallback.jpg'}], // Duplicate descriptor because the fallback is equivalent to 1x
+	[{url: 'banner-hd.jpg', density: 2}, {url: 'other-hd.jpg', density: 2}] // Duplicate descriptors after normalizing
 ];
 
 for (const invalidSrcset of invalidArrays) {
