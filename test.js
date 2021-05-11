@@ -31,28 +31,6 @@ test('.parse() should parse URLs with commas', t => {
 	]);
 });
 
-test('.parse() should not parse invalid srcset', t => {
-	t.throws(() => {
-		srcset.parse('banner-phone-HD.jpeg 100w 2x');
-	});
-
-	t.throws(() => {
-		srcset.parse('banner-phone-HD.jpeg -100w');
-	});
-
-	t.throws(() => {
-		srcset.parse('banner-phone-HD.jpeg -2x');
-	});
-
-	t.throws(() => {
-		srcset.parse('banner-phone-HD.jpeg 100.5w');
-	});
-
-	t.throws(() => {
-		srcset.parse('banner-phone-HD.jpeg xxx');
-	});
-});
-
 test('.parse() should parse srcset separated without whitespaces', t => {
 	const fixture = 'banner-HD.jpeg 2x,banner-phone.jpeg 100w,http://site.com/image.jpg?foo=100w,lorem 1x';
 
@@ -84,7 +62,7 @@ const invalidStrings = [
 	'banner-phone.jpeg -100w', // Negative width
 	'banner-hd.jpeg -2x', // Negative density
 	'banner.jpeg 3q', // Invalid descriptor
-	'banner.jpeg nonsense', // Nonsense descriptor
+	'banner.jpeg xxx', // Nonsense descriptor
 	'banner.jpg 1x, fallback.jpg', // Duplicate descriptor because the fallback is equivalent to 1x
 	'banner.jpg 2x, other.jpg 2.0x' // Duplicate descriptors after normalizing
 ];
@@ -113,7 +91,7 @@ const invalidArrays = [
 	[{url: 'banner-phone.jpeg', width: -100}], // Negative width
 	[{url: 'banner-hd.jpeg', density: -2}], // Negative density
 	[{url: 'banner.jpeg', width: Number.NaN}], // Invalid descriptor
-	[{url: 'banner.jpeg', width: 'nonsense'}], // Nonsense descriptor
+	[{url: 'banner.jpeg', width: 'xxx'}], // Nonsense descriptor
 	[{url: 'banner.jpg', density: 1}, {url: 'fallback.jpg'}], // Duplicate descriptor because the fallback is equivalent to 1x
 	[{url: 'banner-hd.jpg', density: 2}, {url: 'other-hd.jpg', density: 2}] // Duplicate descriptors after normalizing
 ];

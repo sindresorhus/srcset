@@ -11,7 +11,7 @@ declare namespace srcset {
 
 		When disabled, a best effort will be made to handle invalid input and no errors will be thrown. The output may be invalid.
 
-		@default true
+		@default false
 		*/
 		strict?: boolean;
 	}

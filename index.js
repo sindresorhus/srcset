@@ -68,7 +68,7 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 	}
 };
 
-exports.parse = (string, {strict = true} = {}) => {
+exports.parse = (string, {strict = false} = {}) => {
 	const allDescriptors = strict ? {} : undefined;
 	return string.split(imageCandidateRegex)
 		.filter((part, index) => index % 2 === 1)
@@ -105,7 +105,7 @@ exports.parse = (string, {strict = true} = {}) => {
 
 const knownDescriptors = new Set(['width', 'height', 'density']);
 
-exports.stringify = (array, {strict = true} = {}) => {
+exports.stringify = (array, {strict = false} = {}) => {
 	const allDescriptors = strict ? {} : null;
 	return array.map(element => {
 		if (!element.url) {
