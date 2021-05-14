@@ -51,20 +51,32 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 		throw new TypeError(`${descriptor || value} is not a valid number`);
 	}
 
-	if (postfix === 'w') {
-		if (value <= 0) {
-			throw new Error('Width descriptor must be greater than zero');
-		} else if (!Number.isInteger(value)) {
-			throw new TypeError('Width descriptor must be an integer');
+	switch (postfix) {
+		case 'w': {
+			if (value <= 0) {
+				throw new Error('Width descriptor must be greater than zero');
+			} else if (!Number.isInteger(value)) {
+				throw new TypeError('Width descriptor must be an integer');
+			}
+
+			break;
 		}
-	} else if (postfix === 'x') {
-		if (value <= 0) {
-			throw new Error('Pixel density descriptor must be greater than zero');
+
+		case 'x': {
+			if (value <= 0) {
+				throw new Error('Pixel density descriptor must be greater than zero');
+			}
+
+			break;
 		}
-	} else if (postfix === 'h') {
-		throw new Error('Height descriptor is no longer allowed');
-	} else {
-		throw new Error(`Invalid srcset descriptor: ${descriptor}`);
+
+		case 'h': {
+			throw new Error('Height descriptor is no longer allowed');
+		}
+
+		default: {
+			throw new Error(`Invalid srcset descriptor: ${descriptor}`);
+		}
 	}
 };
 
@@ -90,12 +102,23 @@ exports.parse = (string, {strict = false} = {}) => {
 					duplicateDescriptorCheck(allDescriptors, value, postfix);
 				}
 
-				if (postfix === 'w') {
-					result.width = value;
-				} else if (postfix === 'h') {
-					result.height = value;
-				} else if (postfix === 'x') {
-					result.density = value;
+				switch (postfix) {
+					case 'w': {
+						result.width = value;
+						break;
+					}
+
+					case 'h': {
+						result.height = value;
+						break;
+					}
+
+					case 'x': {
+						result.density = value;
+						break;
+					}
+
+					// No default
 				}
 			}
 
@@ -127,12 +150,25 @@ exports.stringify = (array, {strict = false} = {}) => {
 		for (const descriptorKey of descriptorKeys) {
 			const value = element[descriptorKey];
 			let postfix;
-			if (descriptorKey === 'width') {
-				postfix = 'w';
-			} else if (descriptorKey === 'height') {
-				postfix = 'h';
-			} else if (descriptorKey === 'density') {
-				postfix = 'x';
+			switch (descriptorKey) {
+				case 'width': {
+					postfix = 'w';
+
+					break;
+				}
+
+				case 'height': {
+					postfix = 'h';
+
+					break;
+				}
+
+				case 'density': {
+					postfix = 'x';
+
+					break;
+				}
+			// No default
 			}
 
 			const descriptor = `${value}${postfix}`;

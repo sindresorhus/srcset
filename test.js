@@ -1,5 +1,5 @@
 import test from 'ava';
-import srcset from '.';
+import srcset from './index.js';
 
 test('.parse() should parse srcset', t => {
 	const fixture = ' banner-HD.jpeg 2x,    banner-phone.jpeg   100w, http://site.com/image.jpg?foo=bar,lorem 3x ,banner.jpeg    ';

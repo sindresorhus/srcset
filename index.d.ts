@@ -1,3 +1,5 @@
+/* eslint-disable no-redeclare */
+
 declare namespace srcset {
 	interface SrcSetDefinition {
 		url: string;
@@ -5,7 +7,7 @@ declare namespace srcset {
 		density?: number;
 	}
 
-	interface SrcSetOptions {
+	interface Options {
 		/**
 		When strict mode is enabled, errors will be thrown on invalid input.
 
@@ -21,9 +23,9 @@ declare const srcset: {
 	/**
 	Parse the HTML `<img>` [srcset](http://mobile.smashingmagazine.com/2013/08/21/webkit-implements-srcset-and-why-its-a-good-thing/) attribute.
 
-	Accepts a srcset string and returns an array of objects with the possible properties: `url` (always), `width`, `density`, and `height`.
+	Accepts a “srcset” string and returns an array of objects with the possible properties: `url` (always), `width`, `density`, and `height`.
 
-	@param srcset - A srcset string.
+	@param srcset - A “srcset” string.
 
 	@example
 	```
@@ -42,14 +44,14 @@ declare const srcset: {
 	// ]
 	```
 	*/
-	parse: (srcset: string, options?: srcset.SrcSetOptions) => srcset.SrcSetDefinition[];
+	parse: (srcset: string, options?: srcset.Options) => srcset.SrcSetDefinition[];
 
 	/**
-	Stringify `SrcSetDefinition`s. Accepts an array of `SrcSetDefinition` objects and returns a srcset string.
+	Stringify `SrcSetDefinition`s.
 
-	@param SrcSetDefinitions - An array of `SrcSetDefinition` objects. Each object should have a `url` field and may have either `width` or `density`. When `options.strict` is set to false, a `height` field is also accepted, and multiple descriptors (`width`, `height`, and`density`) are accepted.
+	@param SrcSetDefinitions - Each object should have a `url` field and may have either `width` or `density`. When the `strict` option is `true`, only `width` or `density` is accepted.
 
-	@returns A srcset string.
+	@returns A “srcset” string.
 
 	@example
 	```
@@ -70,7 +72,7 @@ declare const srcset: {
 	// banner-HD.jpg 2x, banner-phone.jpg 100w
 	```
 	*/
-	stringify: (srcSetDefinitions: srcset.SrcSetDefinition[], options?: srcset.SrcSetOptions) => string;
+	stringify: (srcSetDefinitions: readonly srcset.SrcSetDefinition[], options?: srcset.Options) => string;
 };
 
 export = srcset;
