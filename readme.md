@@ -6,8 +6,8 @@ Can be useful if you're creating a build-tool.
 
 ## Install
 
-```
-$ npm install srcset
+```sh
+npm install srcset
 ```
 
 ## Usage
@@ -25,9 +25,9 @@ How an image with `srcset` might look like:
 Then have some fun with it:
 
 ```js
-const srcset = require('srcset');
+import {parseSrcset, stringifySrcset} from 'srcset';
 
-const parsed = srcset.parse('banner-HD.jpg 2x, banner-phone.jpg 100w');
+const parsed = parseSrcset('banner-HD.jpg 2x, banner-phone.jpg 100w');
 console.log(parsed);
 /*
 [
@@ -47,7 +47,7 @@ parsed.push({
 	density: 3
 });
 
-const stringified = srcset.stringify(parsed);
+const stringified = stringifySrcset(parsed);
 console.log(stringified);
 /*
 banner-HD.jpg 2x, banner-phone.jpg 100w, banner-super-HD.jpg 3x
@@ -56,7 +56,7 @@ banner-HD.jpg 2x, banner-phone.jpg 100w, banner-super-HD.jpg 3x
 
 ## API
 
-### .parse(string, options?)
+### parseSrcset(string, options?)
 
 Parse the HTML `<img>` [srcset](http://mobile.smashingmagazine.com/2013/08/21/webkit-implements-srcset-and-why-its-a-good-thing/) attribute.
 
@@ -79,7 +79,7 @@ Default: `false`
 
 When enabled, an invalid “srcset” string will cause an error to be thrown. When disabled, a best effort will be made to parse the string, potentially resulting in invalid or nonsensical output.
 
-### .stringify(SrcSetDefinitions, options?)
+### stringifySrcset(SrcSetDefinitions, options?)
 
 Stringify `SrcSetDefinition`s. Accepts an array of `SrcSetDefinition` objects and returns a “srcset” string.
 
@@ -95,11 +95,10 @@ Type: `object`
 
 ##### strict
 
-Type: `boolean`
-
+Type: `boolean`\
 Default: `false`
 
-Enable or disable validation of the SrcSetDefinitions. When true, invalid input will cause an error to be thrown. When false, a best effort will be made to stringify invalid input, likely resulting in invalid srcset value.
+Enable or disable validation of the `SrcSetDefinition`'s. When true, invalid input will cause an error to be thrown. When false, a best effort will be made to stringify invalid input, likely resulting in invalid srcset value.
 
 ---
 

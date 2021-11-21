@@ -1,5 +1,3 @@
-'use strict';
-
 /**
 This regex represents a loose rule of an “image candidate string”.
 
@@ -80,8 +78,9 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 	}
 };
 
-exports.parse = (string, {strict = false} = {}) => {
+export function parseSrcset(string, {strict = false} = {}) {
 	const allDescriptors = strict ? {} : undefined;
+
 	return string.split(imageCandidateRegex)
 		.filter((part, index) => index % 2 === 1)
 		.map(part => {
@@ -124,12 +123,13 @@ exports.parse = (string, {strict = false} = {}) => {
 
 			return result;
 		});
-};
+}
 
 const knownDescriptors = new Set(['width', 'height', 'density']);
 
-exports.stringify = (array, {strict = false} = {}) => {
-	const allDescriptors = strict ? {} : null;
+export function stringifySrcset(array, {strict = false} = {}) {
+	const allDescriptors = strict ? {} : undefined;
+
 	return array.map(element => {
 		if (!element.url) {
 			if (strict) {
@@ -183,4 +183,4 @@ exports.stringify = (array, {strict = false} = {}) => {
 
 		return result.join(' ');
 	}).join(', ');
-};
+}
