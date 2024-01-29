@@ -56,6 +56,16 @@ test('parseSrcset() - strict mode', t => {
 	);
 });
 
+test('parseSrcset() - should correctly parse srcset with varied spacing and newlines', t => {
+	const fixture = `image.png,
+					 image@2x.png 2x`;
+
+	t.deepEqual(parseSrcset(fixture), [
+		{url: 'image.png'},
+		{url: 'image@2x.png', density: 2},
+	]);
+});
+
 test('stringifySrcset() should stringify srcset', t => {
 	const fixture = [
 		{url: 'banner-HD.jpeg', density: 2},

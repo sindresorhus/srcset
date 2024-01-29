@@ -82,7 +82,10 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 export function parseSrcset(string, {strict = false} = {}) {
 	const allDescriptors = strict ? {} : undefined;
 
-	return string.split(imageCandidateRegex)
+	return string
+		.replace(/\r?\n/, '')
+		.replace(/,\s+/, ', ')
+		.split(imageCandidateRegex)
 		.filter((part, index) => index % 2 === 1)
 		.map(part => {
 			const [url, ...descriptors] = part.trim().split(/\s+/);
