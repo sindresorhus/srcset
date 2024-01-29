@@ -29,7 +29,8 @@ const fallbackDescriptorDuplicateCheck = allDescriptors => {
 		throw new Error('Only one fallback image candidate is allowed');
 	}
 
-	if (allDescriptors.x['1']) {
+	// TODO: Use `?`.
+	if (allDescriptors.x && allDescriptors.x['1']) {
 		throw new Error('A fallback image is equivalent to a 1x descriptor, providing both is invalid.');
 	}
 

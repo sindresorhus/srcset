@@ -41,6 +41,21 @@ test('parseSrcset() should parse srcset separated without whitespaces', t => {
 	]);
 });
 
+test('parseSrcset() - strict mode', t => {
+	t.deepEqual(
+		parseSrcset('images/x.jpg, images/x-retina.jpg 2x', {strict: true}),
+		[
+			{
+				url: 'images/x.jpg',
+			},
+			{
+				url: 'images/x-retina.jpg',
+				density: 2,
+			},
+		],
+	);
+});
+
 test('stringifySrcset() should stringify srcset', t => {
 	const fixture = [
 		{url: 'banner-HD.jpeg', density: 2},
