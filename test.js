@@ -90,6 +90,7 @@ const invalidStrings = [
 	'banner.jpeg xxx', // Nonsense descriptor
 	'banner.jpg 1x, fallback.jpg', // Duplicate descriptor because the fallback is equivalent to 1x
 	'banner.jpg 2x, other.jpg 2.0x', // Duplicate descriptors after normalizing
+	'banner.jpeg 100abcw', // Invalid width descriptor with non-digits
 ];
 
 for (const invalidSrcset of invalidStrings) {

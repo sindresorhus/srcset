@@ -52,6 +52,12 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 
 	switch (postfix) {
 		case 'w': {
+			// Check that the descriptor (minus the 'w') consists only of ASCII digits
+			const widthString = descriptor.slice(0, -1);
+			if (!/^\d+$/.test(widthString)) {
+				throw new TypeError(`Width descriptor must be a valid non-negative integer: ${descriptor}`);
+			}
+
 			if (value <= 0) {
 				throw new Error('Width descriptor must be greater than zero');
 			} else if (!Number.isInteger(value)) {
