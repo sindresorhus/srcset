@@ -68,6 +68,20 @@ const validDescriptorCheck = (value, postfix, descriptor) => {
 		}
 
 		case 'x': {
+			// Check that the descriptor (minus the 'x') is a valid floating-point number per HTML spec
+			const densityString = descriptor.slice(0, -1);
+
+			// HTML spec: valid floating-point number cannot be Infinity or NaN
+			if (!Number.isFinite(value)) {
+				throw new TypeError(`Density descriptor must be a valid floating-point number: ${descriptor}`);
+			}
+
+			// Validate the string format follows HTML floating-point number rules
+			// Must be: optional sign, then either (digits + optional decimal + digits) or (decimal + digits), then optional exponent
+			if (!/^-?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(densityString)) {
+				throw new TypeError(`Density descriptor must be a valid floating-point number: ${descriptor}`);
+			}
+
 			if (value <= 0) {
 				throw new Error('Pixel density descriptor must be greater than zero');
 			}

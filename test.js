@@ -91,6 +91,10 @@ const invalidStrings = [
 	'banner.jpg 1x, fallback.jpg', // Duplicate descriptor because the fallback is equivalent to 1x
 	'banner.jpg 2x, other.jpg 2.0x', // Duplicate descriptors after normalizing
 	'banner.jpeg 100abcw', // Invalid width descriptor with non-digits
+	'banner.jpeg 2.5abcx', // Invalid density descriptor with non-digits
+	'banner.jpeg 1.23.45x', // Invalid density descriptor with multiple decimal points
+	'banner.jpeg 5.x', // Invalid density descriptor with trailing decimal
+	'banner.jpeg Infinityx', // Invalid density descriptor with Infinity
 ];
 
 for (const invalidSrcset of invalidStrings) {
