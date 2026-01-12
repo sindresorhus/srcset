@@ -78,6 +78,19 @@ test('stringifySrcset() should stringify srcset', t => {
 	);
 });
 
+test("stringifySrcset() - strict mode", (t) => {
+	const fixture = [
+		{url: 'banner-HD.jpeg', density: 2},
+		{url: 'banner-phone.jpeg', width: 100},
+	];
+
+	t.is(
+		stringifySrcset(fixture, {strict: true}),
+		'banner-HD.jpeg 2x, banner-phone.jpeg 100w',
+	);
+});
+
+
 const invalidStrings = [
 	'banner.jpeg, fallback.jpeg', // Multiple fallback images
 	'banner-phone-HD.jpg 100w 2x', // Multiple descriptors
