@@ -198,7 +198,7 @@ export function stringifySrcset(array, {strict = false} = {}) {
 			const descriptor = `${value}${postfix}`;
 
 			if (strict) {
-				validDescriptorCheck(value, postfix);
+				validDescriptorCheck(value, postfix, descriptor);
 				duplicateDescriptorCheck(allDescriptors, value, postfix);
 			}
 
